@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Memecard{% endblock %}
+
+{% block content%}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Decks</h1>
+            <a href="{% url 'decks_create' %}" class="btn btn-primary"
+                >Create Deck</a
+            >
+            <div class="row">
+                {% for deck in decks %}
+                <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ deck.name }}</h5>
+                        <p class="card-text">{{ deck.description }}</p>
+                        <a
+                            href="{% url 'decks_detail' deck.id %}"
+                            class="btn btn-primary"
+                            >View Deck</a
+                        >
+                    </div>
+                </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

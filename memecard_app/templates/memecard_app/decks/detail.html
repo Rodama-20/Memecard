@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Deck {{ deck.name }} {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{ deck.name }}</h1>
+            <p>{{ deck.description }}</p>
+            <a href="{% url 'decks_update' deck.id %}" class="btn btn-warning">Edit</a>
+            <form action="{% url 'decks_delete' deck.id %}" method="POST" onsubmit="return confirm('Are you sure?');">
+                {% csrf_token %}
+                <input type="submit" value="Delete" class="btn btn-danger">
+            </form>
+            
+            <h2>Flashcards</h2>
+            <a href="{% url 'cards_create' %}" class="btn btn-success">Add card</a>
+            <ul>
+                {% for card in deck.cards %}
+                    <li>{% for face in card.faces %}
+                        {{ face.content }}
+                    {% endfor %}
+                    <a href="{% url 'cards_update' card.id %}" class="btn btn-warning">Edit</a>
+                    <form action="{% url 'cards_delete' card.id %}" method="POST" onsubmit="return confirm('Are you sure?');">
+                        {% csrf_token %}
+                        <input type="submit" value="Delete" class="btn btn-danger">
+                    </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
