@@ -10,7 +10,7 @@
             <h1>Edit {{deck.name}}</h1>
             <form action="{% url 'decks_update' deck.id %}" method="post">
                 {% csrf_token %}
-                {{ form }}
+                {{ form.as_div }}
                 <input type="submit" value="Save" class="btn btn-primary">
             </form>
             

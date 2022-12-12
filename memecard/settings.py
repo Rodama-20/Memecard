@@ -127,6 +127,10 @@ AUTHENTICATION_BACKENDS = [
     'memecard_app.backends.UsernameAuthBackend',
 ]
 
+# Login and logout
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = "index"
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

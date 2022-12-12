@@ -18,9 +18,16 @@
                         <p class="card-text">{{ deck.description }}</p>
                         <a
                             href="{% url 'decks_detail' deck.id %}"
-                            class="btn btn-primary"
-                            >View Deck</a
-                        >
+                            class="btn btn-primary">
+                        View Deck</a>
+                        {% if user.is_authenticated %}
+                        <form
+                            action="{% url 'decks_subscribe' deck.id %}"
+                            method="POST">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-primary" value="Subscribe">
+                        </form>
+                        {% endif %}
                     </div>
                 </div>
                 </div>

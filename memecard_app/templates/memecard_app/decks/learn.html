@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %} Learn {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Learn</h1>
+        </div>
+        <div class="col-12">
+            <ul>
+            {% for card in cards %}
+                <li>
+                    <ul>
+                        {% for face in card.faces %}
+                            <li>{{ face }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

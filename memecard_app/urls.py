@@ -11,6 +11,10 @@ urlpatterns = [
     path('decks/create/', views.decks_create, name='decks_create'),
     path('decks/<int:deck_id>/update/', views.decks_update, name='decks_update'),
     path('decks/<int:deck_id>/delete/', views.decks_delete, name='decks_delete'),
+    path('decks/<int:deck_id>/subscribe/', views.decks_subscribe, name='decks_subscribe'),
+    path('decks/<int:deck_id>/unsubscribe/', views.decks_unsubscribe, name='decks_unsubscribe'),
+    path('decks/<int:deck_id>/learn/', views.decks_learn, name='decks_learn'),
+    path('decks/<int:deck_id>/review/', views.decks_review, name='decks_review'),
     
     # Card URLs
     path('cards/', views.cards_index, name='cards_index'),
@@ -25,5 +29,5 @@ urlpatterns = [
     path('users/create/', views.users_create, name='users_create'),
     path('users/<int:user_id>/update/', views.users_update, name='users_update'),
     path('users/<int:user_id>/delete/', views.users_delete, name='users_delete'),
-    path('accounts/profile/', views.users_profile, name='users_profile'),
+    path('users/profile/', views.users_profile, name='users_profile'),
 ]

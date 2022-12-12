@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %} Profile {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Profile</h1>
+            <p>Hello {{ user.username }}!</p>
+        </div>
+        <div class="col-12">
+            <h2>My Decks</h2>
+            <ul>
+                {% for deck in decks %}
+                <li>
+                    <a href="{% url 'decks_detail' deck.id %}">{{ deck.name }}</a>
+                    <form action="{% url 'decks_unsubscribe' deck.id %}" method="POST" onsubmit="return confirm('Are you sure you want to unsubscribe from this deck?');">
+                        {% csrf_token %}
+                        <input type="submit" value="Unsubscribe" class="btn btn-danger">
+                    </form>
+                    <a href = "{% url 'decks_learn' deck.id %}" class="btn btn-primary">Learn</a>
+                    <a href = "{% url 'decks_review' deck.id %}" class="btn btn-primary">review</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
