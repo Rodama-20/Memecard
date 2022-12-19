@@ -15,3 +15,11 @@ class CardTypeFaceType(models.Model):
         managed = False
         db_table = 'card_type_face_type'
         unique_together = (('card_type', 'face_type', 'name'),)
+
+    def getFaceFormDeck(deck_id: int):
+        return CardTypeFaceType.objects.raw('''SELECT *
+            FROM card_type_face_type
+            JOIN card_types ON card_type_face_type.card_type_id = card_types.id
+            JOIN decks ON card_types.id = decks.card_type_id
+            WHERE decks.id = %s''', [deck_id])
+    

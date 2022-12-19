@@ -19,7 +19,7 @@
             
             <h2>Flashcards</h2>
             {% if user.is_authenticated %}
-            <a href="{% url 'cards_create' %}" class="btn btn-success">Add card</a>
+            <a href="{% url 'cards_create' deck.id %}" class="btn btn-success">Add card</a>
             {% endif %}
             <ul>
                 {% for card in deck.cards %}

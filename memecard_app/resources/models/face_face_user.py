@@ -20,3 +20,20 @@ class FaceFaceUser(models.Model):
         managed = False
         db_table = 'face_face_user'
         unique_together = (('user', 'face_one', 'face_two'),)
+
+    def getCardForReview(user_id: int, deck_id: int):
+        return FaceFaceUser.objects.raw('''SELECT *
+            FROM face_face_user
+            JOIN faces ON face_face_user.face_one_id = faces.id
+            JOIN cards ON faces.card_id = cards.id
+            JOIN decks ON cards.deck_id = decks.id
+            WHERE face_face_user.user_id = %s
+            AND decks.id = %s
+            AND face_face_user.next_due <= NOW()
+            ORDER BY face_face_user.next_due
+            LIMIT 5''', [user_id, deck_id])
+
+    def __str__(self) -> str:
+        face1 = Face.objects.get(id=self.face_one_id)
+        face2 = Face.objects.get(id=self.face_two_id)
+        return face1.content + ' - ' + face2.content

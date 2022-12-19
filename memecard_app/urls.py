@@ -19,9 +19,10 @@ urlpatterns = [
     # Card URLs
     path('cards/', views.cards_index, name='cards_index'),
     path('cards/<int:card_id>/', views.cards_detail, name='cards_detail'),
-    path('cards/create/', views.cards_create, name='cards_create'),
+    path('cards/create/<int:deck_id>/', views.cards_create, name='cards_create'),
     path('cards/<int:card_id>/update/', views.cards_update, name='cards_update'),
     path('cards/<int:card_id>/delete/', views.cards_delete, name='cards_delete'),
+    path('cards/<int:card_id>/learn/', views.cards_learn, name='cards_learn'),
 
     # User URLs
     path('users/', views.users_index, name='users_index'),

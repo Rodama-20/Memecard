@@ -15,12 +15,18 @@
                 <li>
                     <ul>
                         {% for face in card.faces %}
-                            <li>{{ face }}</li>
+                            <li>{{ face }} </li>
                         {% endfor %}
                     </ul>
+                    <form action="{% url 'cards_learn' card.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="Learn" class="btn btn-primary">
                 </li>
             {% endfor %}
             </ul>
+        </div>
+        <div class="col-12">
+            <a class="btn btn-primary" href="{% url 'users_profile' %}">Back</a>
         </div>
     </div>
 </div>

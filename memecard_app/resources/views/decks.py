@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 from ..models.deck import Deck
 from ..models.card import Card
-from ..models.face import Face
+from ..models.face_face_user import FaceFaceUser
 from ...forms import AddDeckForm, UpdateDeckForm
 
 def decks_index(request):
@@ -91,7 +91,13 @@ def decks_update(request, deck_id):
 @login_required
 def decks_delete(request, deck_id):
     """Delete a deck"""
-    pass
+    deck = get_object_or_404(Deck, pk=deck_id)
+    if request.method == 'POST':
+        deck.delete()
+
+        return HttpResponseRedirect(reverse('decks_index'))
+    else:
+        return HttpResponseRedirect(reverse('decks_detail', args=(deck_id,)))
 
 @login_required
 def decks_subscribe(request, deck_id):
@@ -129,15 +135,7 @@ def decks_learn(request, deck_id):
         'deck_id': deck_id,
         'user_id': request.user.id,
     }
-    cards = Card.objects.raw('''SELECT *
-        FROM cards
-        JOIN decks ON decks.id = cards.deck_id
-        JOIN card_user ON card_user.card_id = cards.id
-        WHERE decks.id = %(deck_id)s
-        AND card_user.user_id = %(user_id)s
-        AND card_user.is_learned = FALSE
-        LIMIT 5'''
-        , params)
+    cards = Card.getWithUserAndDeck(params)
     for card in cards:
         card.faces = card.face_set.all()
 
@@ -150,32 +148,14 @@ def decks_learn(request, deck_id):
 @login_required
 def decks_review(request, deck_id):
     """Review a deck"""
-    params = {
-        'deck_id': deck_id,
-        'user_id': request.user.id,
-    }
-    faces1 = Face.objects.raw('''SELECT *
-        FROM faces
-        JOIN face_face_user ON face_face_user.face_one_id = faces.id
-        JOIN cards ON cards.id = faces.card_id
-        JOIN decks ON decks.id = cards.deck_id
-        WHERE face_face_user.user_id = %(user_id)s
-        AND decks.id = %(deck_id)s
-        AND face_face_user.next_due <= NOW()
-        '''
-        , params)
-    faces2 = Face.objects.raw('''SELECT *
-        FROM faces
-        JOIN face_face_user ON face_face_user.face_two_id = faces.id
-        JOIN cards ON cards.id = faces.card_id
-        JOIN decks ON decks.id = cards.deck_id
-        WHERE face_face_user.user_id = %(user_id)s
-        AND decks.id = %(deck_id)s
-        AND face_face_user.next_due <= NOW()
-        '''
-        , params)
+    faces = FaceFaceUser.getCardForReview(request.user.id, deck_id)
+    
+    if len(faces) == 0:
+        print("No cards to review")
+    for face in faces:
+        print(face)
 
-    faces = map(lambda x, y: (x, y), faces1, faces2)
+
     template = loader.get_template('memecard_app/decks/review.html')
     context = {
         'faces': faces,

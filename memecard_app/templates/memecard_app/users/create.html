@@ -37,8 +37,30 @@
                 <div class="form-group">
                     <label for="{{form.confirm.id}}">Confirm Password</label>
                     {{ form.confirm }}
+                    <p id="mismatch" class="form-text"></p>
                 </div>
-                <input type="submit" class="btn btn-primary" value="Sign Up">
+                <input id="submit" type="submit" class="btn btn-primary" value="Sign Up">
             </form>
+        </div>
+    </div>
+</div>
+<script>
+    function checkPassword() {
+        let password = document.getElementById("id_password");
+        let confirm = document.getElementById("id_confirm");
+        let submit = document.getElementById("submit");
+        let error = document.getElementById("mismatch");
+
+        if (password.value != confirm.value) {
+            error.innerHTML = "Passwords do not match";
+            confirm.classList.add("is-invalid");
+            submit.disabled = true;
+        } else {
+            error.innerHTML = "";
+            confirm.classList.remove("is-invalid");
+            submit.disabled = false;
+        }
+    }
+</script>
 
 {% endblock %}

@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %}Add Deck{% endblock %}
+{% block title %}Add Card{% endblock %}
 
 {% block content %}
 
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1>Add deck</h1>
-            <form method="post" action="{% url 'decks_create' %}">
+            <h1>Add card</h1>
+            <form method="post" action="{% url 'cards_create' deck_id %}">
                 {% csrf_token %}
                 {{ form.as_div }}
-                <input type="submit" value="Add deck" class="btn btn-primary">
+                <input type="submit" value="Add card" class="btn btn-primary">
             </form>
 
                 
