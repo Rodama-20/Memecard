@@ -6,6 +6,7 @@ from django.template import loader
 from .resources.views.decks import *
 from .resources.views.cards import *
 from .resources.views.users import *
+from .resources.views.reviews import *
 
 
 # Create your views here.

@@ -9,6 +9,7 @@ from ..models.card_type_face_type import CardTypeFaceType
 from ..models.face import Face
 from ..models.deck import Deck
 from ..models.card_user import CardUser
+from ..models.face import Face
 from ...forms import CardForm
 
 def cards_index(request):
@@ -54,7 +55,7 @@ def cards_create(request, deck_id):
 
 
 @login_required
-def cards_update(request, card_id):
+def cards_update(request, card_id): 
     '''update a card'''
     card = get_object_or_404(Card, pk=card_id)
     faces = CardTypeFaceType.getFaceFormDeck(card.deck.id)
@@ -67,9 +68,9 @@ def cards_update(request, card_id):
             card.order = form.cleaned_data['order']
             card.public = form.cleaned_data['public']
             card.save()
-
-            for face in faces:
-                updated_face = Face.objects.get(card=card, type_id=face.face_type_id)
+            
+            for i, face in enumerate(faces):
+                updated_face = Face.objects.filter(card=card, type_id=face.face_type_id)[i]
                 updated_face.content = form.cleaned_data[face.name]
                 updated_face.save()
 
@@ -82,8 +83,8 @@ def cards_update(request, card_id):
         form.fields['order'].initial = card.order
         form.fields['public'].initial = card.public
 
-        for face in faces:
-            old_face = Face.objects.get(card=card, type_id=face.face_type_id)
+        for i, face in enumerate(faces):
+            old_face = Face.objects.filter(card=card, type_id=face.face_type_id).order_by("id")[i]
             form.fields[face.name].initial = old_face.content
 
     template = loader.get_template('memecard_app/cards/update.html')

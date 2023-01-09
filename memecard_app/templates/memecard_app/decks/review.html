@@ -14,6 +14,46 @@
             {% for face in faces %}
                 <li>
                     {{ face }}
+                    <form action="{% url 'review' face.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="from-check">
+                            <input class="form-check-input" type="radio" name="evaluation" id="evaluation1" value="0">
+                            <label class="form-check-label" for="evaluation1">
+                                1 - Complete blackout / no idea
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="evaluation" id="evaluation2" value="1">
+                            <label class="form-check-label" for="evaluation2">
+                                2 - Incorrect response but I know the correct answer when shown
+                            </label>
+                        </div>
+                        <div class="from-check">
+                            <input class="form-check-input" type="radio" name="evaluation" id="evaluation3" value="2">
+                            <label class="form-check-label" for="evaluation3">
+                                3 - Incorrect response but the correct answer is obvious
+                            </label>
+                        </div>
+                        <div class="from-check">
+                            <input class="form-check-input" type="radio" name="evaluation" id="evaluation4" value="3">
+                            <label class="form-check-label" for="evaluation4">
+                                4 - Correct response but it was difficult to recall
+                            </label>
+                        </div>
+                        <div class="from-check">
+                            <input class="form-check-input" type="radio" name="evaluation" id="evaluation5" value="4">
+                            <label class="form-check-label" for="evaluation5">
+                                5 - Correct response after a hesitation
+                            </label>
+                        </div>
+                        <div class="from-check">
+                            <input class="form-check-input" type="radio" name="evaluation" id="evaluation6" value="5">
+                            <label class="form-check-label" for ="evaluation6">
+                                6 - perfect response
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
                 </li>
             {% endfor %}
             </ul>

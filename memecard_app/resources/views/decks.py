@@ -149,11 +149,7 @@ def decks_learn(request, deck_id):
 def decks_review(request, deck_id):
     """Review a deck"""
     faces = FaceFaceUser.getCardForReview(request.user.id, deck_id)
-    
-    if len(faces) == 0:
-        print("No cards to review")
-    for face in faces:
-        print(face)
+
 
 
     template = loader.get_template('memecard_app/decks/review.html')
