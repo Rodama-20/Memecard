@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', "True") == "True"
 
-ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS', "")]
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', "").split(",")
 
 
 # Application definition
@@ -154,3 +154,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost').split(',')
