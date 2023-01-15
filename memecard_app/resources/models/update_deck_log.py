@@ -6,10 +6,10 @@
 
 from django.db import models
 
-from card import Card
-from deck import Deck
-from tag import Tag
-from user import User
+from .card import Card
+from .deck import Deck
+from .tag import Tag
+from .user import User
 
 
 class UpdateDeckLog(models.Model):

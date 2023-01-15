@@ -5,8 +5,8 @@
 from django.db import models
 from django.db.models.query import RawQuerySet
 
-from card_type import CardType
-from face_type import FaceType
+from .card_type import CardType
+from .face_type import FaceType
 
 
 class CardTypeFaceType(models.Model):

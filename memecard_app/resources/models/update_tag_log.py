@@ -5,8 +5,8 @@
 
 from django.db import models
 
-from tag import Tag
-from user import User
+from .tag import Tag
+from .user import User
 
 
 class UpdateTagLog(models.Model):

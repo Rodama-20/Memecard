@@ -5,7 +5,7 @@
 
 from django.db import models
 
-from card import Card
+from .card import Card
 
 
 class Meme(models.Model):

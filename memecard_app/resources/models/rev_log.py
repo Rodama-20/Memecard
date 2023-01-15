@@ -5,8 +5,8 @@
 
 from django.db import models
 
-from card import Card
-from user import User
+from .card import Card
+from .user import User
 
 
 class RevLog(models.Model):

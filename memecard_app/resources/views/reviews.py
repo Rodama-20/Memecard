@@ -8,7 +8,7 @@ from django.template import loader
 from supermemo2 import SMTwo
 
 
-from resources.models.face_face_user import FaceFaceUser
+from ..models.face_face_user import FaceFaceUser
 
 
 @login_required

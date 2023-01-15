@@ -5,7 +5,7 @@
 
 from django.db import models
 
-from deck import Deck
+from .deck import Deck
 
 
 class Tag(models.Model):

@@ -5,8 +5,8 @@
 
 from django.db import models
 
-from deck import Deck
-from user import User
+from .deck import Deck
+from .user import User
 
 
 class DeckUser(models.Model):

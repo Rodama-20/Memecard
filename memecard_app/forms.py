@@ -1,7 +1,12 @@
+"""All the forms used in the memecard application.
+
+(c) 2023 He-Arc Cyrille Polier
+"""
+
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UsernameField
 
-from models import CardType
+from .resources.models.card_type import CardType
 
 
 class AddUserForm(forms.Form):

@@ -5,8 +5,8 @@
 
 from django.db import models
 
-from card_type import CardType
-from user import User
+from .card_type import CardType
+from .user import User
 
 
 class Deck(models.Model):

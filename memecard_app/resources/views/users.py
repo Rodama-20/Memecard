@@ -4,8 +4,8 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 
-from resources.models.user import User
-from forms import AddUserForm
+from ..models.user import User
+from ...forms import AddUserForm
 
 
 def users_index(request):

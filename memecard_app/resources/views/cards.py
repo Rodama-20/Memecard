@@ -5,13 +5,13 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 
-from resources.models.card import Card
-from models.card_type_face_type import CardTypeFaceType
-from models.face import Face
-from models.deck import Deck
-from models.card_user import CardUser
-from models.face import Face
-from forms import CardForm
+from ..models.card import Card
+from ..models.card_type_face_type import CardTypeFaceType
+from ..models.face import Face
+from ..models.deck import Deck
+from ..models.card_user import CardUser
+from ..models.face import Face
+from ...forms import CardForm
 
 
 def cards_index(request):

@@ -5,8 +5,8 @@
 
 from django.db import models
 
-from card import Card
-from face_type import FaceType
+from .card import Card
+from .face_type import FaceType
 
 
 class Face(models.Model):

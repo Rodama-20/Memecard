@@ -5,9 +5,9 @@
 
 from django.db import models
 
-from face import Face
-from meme import Meme
-from user import User
+from .face import Face
+from .meme import Meme
+from .user import User
 
 
 class FaceFaceUser(models.Model):

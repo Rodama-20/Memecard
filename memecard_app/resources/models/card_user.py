@@ -4,9 +4,9 @@
 """
 from django.db import models
 
-from card import Card
-from meme import Meme
-from user import User
+from .card import Card
+from .meme import Meme
+from .user import User
 
 
 class CardUser(models.Model):

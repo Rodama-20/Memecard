@@ -5,8 +5,8 @@
 
 from django.db import models
 
-from meme import Meme
-from user import User
+from .meme import Meme
+from .user import User
 
 
 class UpdateMemeLog(models.Model):
