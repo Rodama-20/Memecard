@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class MemecardAppConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'memecard_app'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "memecard_app"

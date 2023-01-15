@@ -1,12 +1,17 @@
+"""CardUser model.
+
+(c) 2023 He-Arc Cyrille Polier
+"""
 from django.db import models
 
-from .card import Card
-from .meme import Meme
-from .user import User
+from card import Card
+from meme import Meme
+from user import User
 
 
 class CardUser(models.Model):
     """Helper table for many-to-many relationship between cards and users."""
+
     user = models.ForeignKey(User, models.CASCADE)
     card = models.ForeignKey(Card, models.CASCADE)
     is_learned = models.BooleanField()
@@ -15,5 +20,5 @@ class CardUser(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'card_user'
-        unique_together = (('user', 'card'),)
+        db_table = "card_user"
+        unique_together = (("user", "card"),)

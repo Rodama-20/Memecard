@@ -1,11 +1,17 @@
+"""The review log of users model.
+
+(c) 2023 He-Arc Cyrille Polier
+"""
+
 from django.db import models
 
-from .card import Card
-from .user import User
+from card import Card
+from user import User
 
 
 class RevLog(models.Model):
     """The review log of users"""
+
     user = models.ForeignKey(User, models.CASCADE)
     card = models.ForeignKey(Card, models.CASCADE)
     answer = models.IntegerField()
@@ -15,4 +21,4 @@ class RevLog(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'rev_log'
+        db_table = "rev_log"

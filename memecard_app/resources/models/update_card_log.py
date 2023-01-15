@@ -1,11 +1,17 @@
+"""The update log of cards
+
+(c) 2023 He-Arc Cyrille Polier
+"""
+
 from django.db import models
 
-from .card import Card
-from .user import User
+from card import Card
+from user import User
 
 
 class UpdateCardLog(models.Model):
     """The update log of cards"""
+
     user = models.ForeignKey(User, models.SET_NULL, blank=True, null=True)
     card = models.ForeignKey(Card, models.SET_NULL, blank=True, null=True)
     face_id = models.IntegerField(blank=True, null=True)
@@ -14,4 +20,4 @@ class UpdateCardLog(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'update_card_log'
+        db_table = "update_card_log"

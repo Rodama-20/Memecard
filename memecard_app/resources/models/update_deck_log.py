@@ -1,12 +1,20 @@
+"""The update log of decks
+
+(c) 2023 He-Arc Cyrille Polier
+"""
+
+
 from django.db import models
 
-from .card import Card
-from .deck import Deck
-from .tag import Tag
-from .user import User
+from card import Card
+from deck import Deck
+from tag import Tag
+from user import User
+
 
 class UpdateDeckLog(models.Model):
     """The update log of decks"""
+
     user = models.ForeignKey(User, models.SET_NULL, blank=True, null=True)
     deck = models.ForeignKey(Deck, models.SET_NULL, blank=True, null=True)
     card = models.ForeignKey(Card, models.SET_NULL, blank=True, null=True)
@@ -17,4 +25,4 @@ class UpdateDeckLog(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'update_deck_log'
+        db_table = "update_deck_log"
