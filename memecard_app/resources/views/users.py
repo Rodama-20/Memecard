@@ -1,3 +1,6 @@
+from hashlib import scrypt
+from os import getenv
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
@@ -25,7 +28,13 @@ def users_create(request):
             new_user = User()
             new_user.username = form.cleaned_data["username"]
             new_user.email = form.cleaned_data["email"]
-            new_user.password = form.cleaned_data["password"]
+            new_user.password = scrypt(
+                str.encode(form.cleaned_data["password"]),
+                salt=str.encode(getenv("SALT")),
+                n=2**14,
+                r=8,
+                p=1,
+            ).hex()
             new_user.save()
 
             return HttpResponseRedirect(reverse("index"))

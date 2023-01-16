@@ -4,6 +4,8 @@
 """
 
 import datetime
+from hashlib import scrypt
+from os import getenv
 
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
@@ -30,9 +32,8 @@ class User(AbstractBaseUser):
         managed = False
         db_table = "users"
 
-    # TODO: Implement this method with hashing
     def check_password(self, raw_password: str) -> bool:
-        return self.password == raw_password
+        return self.password == scrypt(str.encode(raw_password), salt=str.encode(getenv("SALT")), n=2**14, r=8, p=1).hex()
 
     def has_module_perms(self, app_label):
         return False
