@@ -46,6 +46,6 @@ class FaceFaceUser(models.Model):
         )
 
     def __str__(self) -> str:
-        face1 = Face.objects.get(id=self.face_one)
-        face2 = Face.objects.get(id=self.face_two)
+        face1 = Face.objects.get(id=self.face_one.id)
+        face2 = Face.objects.get(id=self.face_two.id)
         return face1.content + " - " + face2.content

@@ -43,6 +43,6 @@ urlpatterns = [
     path("users/<int:user_id>/delete/", views.users_delete, name="users_delete"),
     path("users/profile/", views.users_profile, name="users_profile"),
     # Review URLs
-    path("review/<int:face_face_user_id>/", views.review, name="review"),
+    path("review/", views.review, name="review"),
     path("reviews/<int:deck_id>", views.reviews, name="reviews_index"),
 ]

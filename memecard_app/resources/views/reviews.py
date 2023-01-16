@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import requires_csrf_token
 from django.shortcuts import get_object_or_404
@@ -24,9 +25,6 @@ def reviews(request, deck_id):
         [request.user.id, deck_id],
     )
 
-    for face in face_face:
-        print(face)
-
     template = loader.get_template("memecard_app/reviews/index.html")
     context = {
         "face_face": face_face,
@@ -36,24 +34,22 @@ def reviews(request, deck_id):
 
 @login_required
 @requires_csrf_token
-def review(request, face_face_user_id):
-    """review a card and update the next_due"""
-    if request.method == "POST":
-        # Process the form data
-        review = get_object_or_404(FaceFaceUser, pk=face_face_user_id)
-
-        evaluation = int(request.POST["evaluation"])
-        sm = SMTwo(review.easiness_factor, review.repetition, review.interval).review(
-            evaluation
-        )
-        review.easiness_factor = sm.easiness
-        review.repetition = sm.repetitions
-        review.interval = sm.interval
-        review.next_due = sm.review_date
-        review.save()
-
-        deck_id = review.face_one.card.deck.id
-
-        return HttpResponseRedirect(reverse("decks_review", args=(deck_id,)))
-
-    return HttpResponseRedirect(reverse("index"))
+def review(request):
+    """review a card serie and update their next_due"""
+    json_data = json.loads(request.body)
+    print(json_data)
+    for key in json_data:
+        if json_data[key] is None:
+            continue
+        print(key, json_data[key])
+        current = FaceFaceUser.objects.get(id=key)
+        sm = SMTwo(
+            current.easiness_factor, current.repetition, current.interval
+        ).review(json_data[key])
+        current.easiness_factor = sm.easiness
+        current.repetition = sm.repetitions
+        current.interval = sm.interval
+        current.next_due = sm.review_date
+        current.save()
+        
+    return HttpResponse("OK")
