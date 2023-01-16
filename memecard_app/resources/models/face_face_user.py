@@ -28,7 +28,8 @@ class FaceFaceUser(models.Model):
         db_table = "face_face_user"
         unique_together = (("user", "face_one", "face_two"),)
 
-    def get_card_for_review(self, user_id: int, deck_id: int):
+    @staticmethod
+    def get_card_for_review(user_id: int, deck_id: int):
         """Get a card for review."""
         return FaceFaceUser.objects.raw(
             """SELECT *

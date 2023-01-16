@@ -6,14 +6,14 @@
 from django.db import models
 
 from .card import Card
-from .face_type import FaceType
+from .card_type_face_type import CardTypeFaceType
 
 
 class Face(models.Model):
     """A face of a card."""
 
     card = models.ForeignKey(Card, models.CASCADE)
-    type = models.ForeignKey(FaceType, models.DO_NOTHING)
+    card_type_face_type = models.ForeignKey(CardTypeFaceType, models.DO_NOTHING)
     content = models.CharField(max_length=1000000, blank=True, null=True)
     reports = models.IntegerField(blank=True, null=True)
 

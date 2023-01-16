@@ -27,7 +27,8 @@ class Card(models.Model):
         managed = False
         db_table = "cards"
 
-    def get_with_user_and_deck(self, params: dict):
+    @staticmethod
+    def get_with_user_and_deck( params: dict):
         """Get a card with its user and deck."""
         return Card.objects.raw(
             """SELECT *

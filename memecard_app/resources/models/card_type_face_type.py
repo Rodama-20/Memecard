@@ -24,7 +24,8 @@ class CardTypeFaceType(models.Model):
         db_table = "card_type_face_type"
         unique_together = (("card_type", "face_type", "name"),)
 
-    def get_face_form_deck(self, deck_id: int) -> RawQuerySet:
+    @staticmethod
+    def get_face_form_deck( deck_id: int) -> RawQuerySet:
         """Get all face types for a deck.
 
         Args:

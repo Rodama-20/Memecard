@@ -24,11 +24,11 @@ def cards_detail(request, card_id):
 
 @login_required
 def cards_create(request, deck_id):
-    faces = CardTypeFaceType.get_face_form_deck(deck_id)
+    face_types = CardTypeFaceType.get_face_form_deck(deck_id)
     if request.method == "POST":
         # Process the form data
 
-        form = CardForm(request.POST, faces=faces)
+        form = CardForm(request.POST, faces=face_types)
 
         if form.is_valid():
             new_card = Card()
@@ -36,21 +36,21 @@ def cards_create(request, deck_id):
             new_card.deck = Deck.objects.get(pk=deck_id)
             new_card.order = form.cleaned_data["order"]
             new_card.public = form.cleaned_data["public"]
-            new_card.nb_faces = len(faces)
+            new_card.nb_faces = len(face_types)
             new_card.save()
 
-            for face in faces:
+            for face_type in face_types:
                 new_face = Face()
                 new_face.card = new_card
-                new_face.type_id = face.face_type_id
-                new_face.content = form.cleaned_data[face.name]
+                new_face.card_type_face_type = face_type
+                new_face.content = form.cleaned_data[face_type.name]
                 new_face.save()
 
             return HttpResponseRedirect(reverse("decks_detail", args=[deck_id]))
     else:
         # Present a blank form
 
-        form = CardForm(faces=faces)
+        form = CardForm(faces=face_types)
 
     template = loader.get_template("memecard_app/cards/create.html")
     return HttpResponse(template.render({"form": form, "deck_id": deck_id}, request))
@@ -60,38 +60,36 @@ def cards_create(request, deck_id):
 def cards_update(request, card_id):
     """update a card"""
     card = get_object_or_404(Card, pk=card_id)
-    faces = CardTypeFaceType.get_face_form_deck(card.deck.id)
+    face_types = CardTypeFaceType.get_face_form_deck(card.deck.id)
     if request.method == "POST":
         # Process the form data
 
-        form = CardForm(request.POST, faces=faces)
+        form = CardForm(request.POST, faces=face_types)
 
         if form.is_valid():
             card.order = form.cleaned_data["order"]
             card.public = form.cleaned_data["public"]
             card.save()
 
-            for i, face in enumerate(faces):
-                updated_face = Face.objects.filter(
-                    card=card, type_id=face.face_type_id
-                )[i]
-                updated_face.content = form.cleaned_data[face.name]
+            for face_type in face_types:
+                updated_face = Face.objects.get(
+                    card=card, card_type_face_type_id=face_type.id
+                )
+                updated_face.content = form.cleaned_data[face_type.name]
                 updated_face.save()
 
             return HttpResponseRedirect(reverse("decks_detail", args=[card.deck.id]))
     else:
         # Present a prefilled form
 
-        form = CardForm(faces=faces)
+        form = CardForm(faces=face_types)
 
         form.fields["order"].initial = card.order
         form.fields["public"].initial = card.public
 
-        for i, face in enumerate(faces):
-            old_face = Face.objects.filter(
-                card=card, type_id=face.face_type_id
-            ).order_by("id")[i]
-            form.fields[face.name].initial = old_face.content
+        for face_type in face_types:
+            old_face = Face.objects.get(card=card, card_type_face_type_id=face_type.id)
+            form.fields[face_type.name].initial = old_face.content
 
     template = loader.get_template("memecard_app/cards/update.html")
     return HttpResponse(template.render({"form": form, "card_id": card_id}, request))
