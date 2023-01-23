@@ -36,6 +36,7 @@ def reviews(request, deck_id):
 @requires_csrf_token
 def review(request):
     """review a card serie and update their next_due"""
+    print(request)
     json_data = json.loads(request.body)
     print(json_data)
     for key in json_data:

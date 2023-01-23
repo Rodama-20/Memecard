@@ -24,7 +24,7 @@
             <ul>
                 {% for card in deck.cards %}
                     <li>{% for face in card.faces %}
-                        {{ face.content }}
+                        {{ face.content }} / 
                     {% endfor %}
                     {% if user.is_authenticated %}
                     <a href="{% url 'cards_update' card.id %}" class="btn btn-warning">Edit</a>

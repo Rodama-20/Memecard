@@ -168,7 +168,7 @@
 
         // go to next try
         if(tries.length == 0){
-            saveData();
+            saveData();            
         }
         if (tries.length == 1){
             submit.innerHTML = "Submit";
@@ -176,7 +176,8 @@
         tryCard();
     }
 
-    function saveData(){
+    async function saveData(){
+        console.log("saving data");
         // sanitize data
         for (let key in evaluation) {
             if (evaluation[key] > 5) {
@@ -188,7 +189,7 @@
         }
         
         // send data
-        fetch("{% url 'review' %}", {
+        await fetch("{% url 'review' %}", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -196,8 +197,9 @@
             },
             body: JSON.stringify(evaluation)
         });
-
+        
         saved = true;
+        
         window.location.replace("{% url 'users_profile' %}");        
     }
 

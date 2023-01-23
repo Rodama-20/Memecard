@@ -33,7 +33,11 @@ class User(AbstractBaseUser):
         db_table = "users"
 
     def check_password(self, raw_password: str) -> bool:
-        return self.password == scrypt(str.encode(raw_password), salt=str.encode(getenv("SALT")), n=2**14, r=8, p=1).hex()
+        return self.password == User.crypt_password(raw_password)
 
     def has_module_perms(self, app_label):
         return False
+    
+    @staticmethod
+    def crypt_password(raw_password: str) -> str:
+        return scrypt(str.encode(raw_password), salt=str.encode(getenv("SALT")), n=2**14, r=8, p=1).hex()

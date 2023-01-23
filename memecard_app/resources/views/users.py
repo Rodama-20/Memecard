@@ -28,13 +28,7 @@ def users_create(request):
             new_user = User()
             new_user.username = form.cleaned_data["username"]
             new_user.email = form.cleaned_data["email"]
-            new_user.password = scrypt(
-                str.encode(form.cleaned_data["password"]),
-                salt=str.encode(getenv("SALT")),
-                n=2**14,
-                r=8,
-                p=1,
-            ).hex()
+            new_user.password = User.crypt_password(form.cleaned_data["password"])
             new_user.save()
 
             return HttpResponseRedirect(reverse("index"))
