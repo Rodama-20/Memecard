@@ -1,4 +1,5 @@
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
@@ -84,7 +85,7 @@ def decks_update(request, deck_id):
             log.tag = None
             log.action = "update"
             log.old_name = deck.name
-            log.time = datetime.now(tz="Europe/Zurich")
+            log.time = datetime.now(ZoneInfo("Europe/Zurich"))
             
             # Perform the update
             deck.name = form.cleaned_data["name"]

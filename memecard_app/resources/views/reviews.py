@@ -1,5 +1,6 @@
 from datetime import datetime
 import json
+from zoneinfo import ZoneInfo
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import requires_csrf_token
 from django.shortcuts import get_object_or_404
@@ -60,7 +61,7 @@ def review(request):
         revlog.answer = json_data[key]
         revlog.interval = sm.interval
         revlog.easiness_factor = sm.easiness
-        revlog.time = datetime.now(tz="Europe/Zurich")
+        revlog.time = datetime.now(ZoneInfo("Europe/Zurich"))
         revlog.save()
         
 

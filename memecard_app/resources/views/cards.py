@@ -1,4 +1,5 @@
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
@@ -84,7 +85,7 @@ def cards_update(request, card_id):
                     log.card = card
                     log.face_id = updated_face.id
                     log.old_content = updated_face.content
-                    log.time = datetime.now(tz="Europe/Zurich")
+                    log.time = datetime.now(ZoneInfo("Europe/Zurich"))
                     log.save()
                 # Update the face
                 updated_face.content = form.cleaned_data[face_type.name]
