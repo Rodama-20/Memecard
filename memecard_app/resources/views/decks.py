@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
@@ -7,7 +8,9 @@ from django.contrib.auth.decorators import login_required
 from ..models.deck import Deck
 from ..models.card import Card
 from ..models.face_face_user import FaceFaceUser
+from ..models.update_deck_log import UpdateDeckLog
 from ...forms import AddDeckForm, UpdateDeckForm
+
 
 
 def decks_index(request):
@@ -73,9 +76,22 @@ def decks_update(request, deck_id):
         form = UpdateDeckForm(request.POST)
 
         if form.is_valid():
+            # Log the update
+            log = UpdateDeckLog()
+            log.user = request.user
+            log.deck = deck
+            log.card = None
+            log.tag = None
+            log.action = "update"
+            log.old_name = deck.name
+            log.time = datetime.now(tz="Europe/Zurich")
+            
+            # Perform the update
             deck.name = form.cleaned_data["name"]
             deck.public = form.cleaned_data["public"]
             deck.save()
+            
+            
 
             return HttpResponseRedirect(reverse("decks_index"))
     else:

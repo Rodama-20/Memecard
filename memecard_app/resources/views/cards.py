@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
@@ -11,6 +12,7 @@ from ..models.face import Face
 from ..models.deck import Deck
 from ..models.card_user import CardUser
 from ..models.face import Face
+from ..models.update_card_log import UpdateCardLog
 from ...forms import CardForm
 
 
@@ -75,6 +77,16 @@ def cards_update(request, card_id):
                 updated_face = Face.objects.get(
                     card=card, card_type_face_type_id=face_type.id
                 )
+                # Log the update
+                if updated_face.content != form.cleaned_data[face_type.name]:
+                    log = UpdateCardLog()
+                    log.user = request.user
+                    log.card = card
+                    log.face_id = updated_face.id
+                    log.old_content = updated_face.content
+                    log.time = datetime.now(tz="Europe/Zurich")
+                    log.save()
+                # Update the face
                 updated_face.content = form.cleaned_data[face_type.name]
                 updated_face.save()
 

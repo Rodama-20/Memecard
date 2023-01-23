@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import requires_csrf_token
@@ -10,6 +11,7 @@ from supermemo2 import SMTwo
 
 
 from ..models.face_face_user import FaceFaceUser
+from ..models.rev_log import RevLog
 
 
 @login_required
@@ -36,13 +38,11 @@ def reviews(request, deck_id):
 @requires_csrf_token
 def review(request):
     """review a card serie and update their next_due"""
-    print(request)
     json_data = json.loads(request.body)
-    print(json_data)
     for key in json_data:
         if json_data[key] is None:
             continue
-        print(key, json_data[key])
+
         current = FaceFaceUser.objects.get(id=key)
         sm = SMTwo(
             current.easiness_factor, current.repetition, current.interval
@@ -53,4 +53,15 @@ def review(request):
         current.next_due = sm.review_date
         current.save()
         
+        # Log the review
+        revlog = RevLog()
+        revlog.user = request.user
+        revlog.card = current.face_one.card
+        revlog.answer = json_data[key]
+        revlog.interval = sm.interval
+        revlog.easiness_factor = sm.easiness
+        revlog.time = datetime.now(tz="Europe/Zurich")
+        revlog.save()
+        
+
     return HttpResponse("OK")
