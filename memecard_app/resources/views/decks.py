@@ -86,6 +86,7 @@ def decks_update(request, deck_id):
             log.action = "update"
             log.old_name = deck.name
             log.time = datetime.now(ZoneInfo("Europe/Zurich"))
+            log.save()
             
             # Perform the update
             deck.name = form.cleaned_data["name"]
