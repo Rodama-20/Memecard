@@ -1,3 +1,7 @@
+"""
+All the views for the decks in the app.
+"""
+
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from django.shortcuts import get_object_or_404

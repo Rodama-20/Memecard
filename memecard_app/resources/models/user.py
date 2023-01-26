@@ -40,4 +40,12 @@ class User(AbstractBaseUser):
     
     @staticmethod
     def crypt_password(raw_password: str) -> str:
+        """Crypt a password using scrypt.
+
+        Args:
+            raw_password (str): the password to crypt
+
+        Returns:
+            str: an hexadecimal string representing the crypted password
+        """
         return scrypt(str.encode(raw_password), salt=str.encode(getenv("SALT")), n=2**14, r=8, p=1).hex()

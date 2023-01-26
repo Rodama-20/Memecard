@@ -1,9 +1,11 @@
-from hashlib import scrypt
-from os import getenv
+"""
+Views to manage users 
+"""
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
 
@@ -11,7 +13,7 @@ from ..models.user import User
 from ...forms import AddUserForm
 
 
-def users_index(request):
+def users_index(_request):
     pass
 
 
@@ -30,6 +32,9 @@ def users_create(request):
             new_user.email = form.cleaned_data["email"]
             new_user.password = User.crypt_password(form.cleaned_data["password"])
             new_user.save()
+            
+            user = authenticate(request, username=new_user.username, password=form.cleaned_data["password"])
+            login(request, user)
 
             return HttpResponseRedirect(reverse("index"))
     else:

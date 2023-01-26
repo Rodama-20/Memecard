@@ -2,7 +2,6 @@
 
 (c) 2023 He-Arc Cyrille Polier
 """
-from django.db import models
 
 
 from .resources.models.user import User

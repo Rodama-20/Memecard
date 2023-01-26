@@ -1,15 +1,17 @@
+"""
+View for managing reviews of cards
+"""
+
 from datetime import datetime
 import json
 from zoneinfo import ZoneInfo
+
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import requires_csrf_token
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse
-from django.urls import reverse
+from django.http import HttpResponse
 from django.template import loader
 
 from supermemo2 import SMTwo
-
 
 from ..models.face_face_user import FaceFaceUser
 from ..models.rev_log import RevLog
@@ -53,7 +55,7 @@ def review(request):
         current.interval = sm.interval
         current.next_due = sm.review_date
         current.save()
-        
+
         # Log the review
         revlog = RevLog()
         revlog.user = request.user
@@ -63,6 +65,5 @@ def review(request):
         revlog.easiness_factor = sm.easiness
         revlog.time = datetime.now(ZoneInfo("Europe/Zurich"))
         revlog.save()
-        
 
     return HttpResponse("OK")
