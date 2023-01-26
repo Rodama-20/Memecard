@@ -31,7 +31,7 @@ def decks_index(request):
 def decks_detail(request, deck_id):
     """Detail page for a deck, showing all cards in the deck"""
     deck = get_object_or_404(Deck, pk=deck_id)
-    cards = deck.card_set.all()
+    cards = deck.card_set.all().order_by("order")
     deck.cards = []
 
     for card in cards:
